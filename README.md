@@ -1,21 +1,32 @@
-# React Native Notes (Source Pack)
-Ini adalah paket **sumber kode** (src) untuk aplikasi catatan dengan Navigation + Redux Persist + optimasi performa.
+# React Native Notes (Futuristic UI — Source Pack)
+Aplikasi catatan dengan **UI futuristik** (dark + neon), **Navigation (Tabs + Stack)**, **Redux Toolkit + Persist**, dan optimasi performa.
 
-## Cara pakai (disarankan)
+## Dependency
+- `@react-navigation/native`, `@react-navigation/native-stack`, `@react-navigation/bottom-tabs`
+- `@reduxjs/toolkit`, `react-redux`, `redux-persist`, `@react-native-async-storage/async-storage`
+- `expo-linear-gradient` (background gradien)
+- `@expo/vector-icons` (ikon tab & tombol) — sudah termasuk di Expo
+- `expo-status-bar` (sudah termasuk template Expo)
+
+## Cara pakai (sumber kode ini)
 1. Buat project Expo TypeScript baru:
    ```bash
    npx create-expo-app rn-notes --template
    # Pilih: Blank (TypeScript)
    cd rn-notes
    ```
-2. Install dependency:
+2. Install dependency utama:
    ```bash
    npm i @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs @reduxjs/toolkit react-redux redux-persist @react-native-async-storage/async-storage
+   npx expo install expo-linear-gradient
    ```
-3. Salin isi folder `src/`, `App.tsx`, dan `tsconfig.json` dari paket ini ke project Anda (replace jika ditanya).
+3. Salin berkas dari paket ini: `src/`, `App.tsx`, `tsconfig.json` -> ke project Anda (replace jika ditanya).
 4. Jalankan:
    ```bash
    npx expo start
    ```
 
-> Catatan: Jika Anda ingin build release, gunakan `npx expo run:android --variant release` atau `npx expo run:ios --configuration Release`.
+## Kustom warna
+Ubah file `src/theme.ts` untuk menyesuaikan warna neon & kontras.
+
+Selamat ngoding! 🚀

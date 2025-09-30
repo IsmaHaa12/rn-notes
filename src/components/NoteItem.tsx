@@ -1,6 +1,8 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Note } from '../slices/notesSlice';
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../theme';
 
 const NoteItem = React.memo(function NoteItem({
   note,
@@ -14,16 +16,16 @@ const NoteItem = React.memo(function NoteItem({
   onDelete: () => void;
 }) {
   return (
-    <Pressable onPress={onPress} style={styles.card} android_ripple={{ color: '#e0e0e0' }}>
+    <Pressable onPress={onPress} style={styles.card} android_ripple={{ color: 'rgba(255,255,255,0.06)' }}>
       <View style={styles.row}>
         <Text style={styles.title} numberOfLines={1}>
           {note.title || '(No title)'}
         </Text>
         <Pressable onPress={onTogglePin} style={styles.iconBtn} hitSlop={8}>
-          <Text style={styles.icon}>{note.pinned ? '★' : '☆'}</Text>
+          <Ionicons name={note.pinned ? 'star' : 'star-outline'} size={18} color={colors.primary2} />
         </Pressable>
         <Pressable onPress={onDelete} style={styles.iconBtn} hitSlop={8}>
-          <Text style={[styles.icon, { color: '#e53935' }]}>🗑️</Text>
+          <Ionicons name="trash" size={18} color={colors.danger} />
         </Pressable>
       </View>
       <Text numberOfLines={2} style={styles.content}>
@@ -38,18 +40,14 @@ export default NoteItem;
 const styles = StyleSheet.create({
   card: {
     minHeight: 84,
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 14,
     padding: 12,
-    elevation: 1,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   row: { flexDirection: 'row', alignItems: 'center' },
-  title: { flex: 1, fontWeight: '700' },
-  content: { marginTop: 6, opacity: 0.7 },
-  iconBtn: { marginLeft: 8 },
-  icon: { fontSize: 16 },
+  title: { flex: 1, fontWeight: '700', color: colors.text },
+  content: { marginTop: 6, color: colors.muted },
+  iconBtn: { marginLeft: 10 },
 });

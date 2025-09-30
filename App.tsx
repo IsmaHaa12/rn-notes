@@ -1,13 +1,15 @@
 import React, { Suspense } from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from './src/theme';
+import { StatusBar } from 'expo-status-bar';
 
-// Lazy load screens to reduce initial bundle
 const NotesScreen = React.lazy(() => import('./src/screens/NotesScreen'));
 const EditNoteScreen = React.lazy(() => import('./src/screens/EditNoteScreen'));
 
@@ -19,32 +21,75 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
+function HeaderLogo() {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Ionicons name="planet" size={18} color={colors.primary2} style={{ marginRight: 8 }} />
+      <Text style={{ color: colors.text, fontWeight: '700' }}>Neon Notes</Text>
+    </View>
+  );
+}
+
 function Tabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="All" options={{ title: 'All' }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: '#0f172a', borderTopColor: colors.border },
+        tabBarActiveTintColor: colors.primary2,
+        tabBarInactiveTintColor: colors.muted,
+      }}
+    >
+      <Tab.Screen
+        name="All"
+        options={{
+          title: 'All',
+          tabBarIcon: ({ color, size }) => <Ionicons name="albums-outline" color={color} size={size} />,
+        }}
+      >
         {() => <NotesScreen showPinnedOnly={false} />}
       </Tab.Screen>
-      <Tab.Screen name="Pinned" options={{ title: 'Pinned' }}>
+      <Tab.Screen
+        name="Pinned"
+        options={{
+          title: 'Pinned',
+          tabBarIcon: ({ color, size }) => <Ionicons name="star-outline" color={color} size={size} />,
+        }}
+      >
         {() => <NotesScreen showPinnedOnly={true} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
 }
 
+const MyTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: colors.bg,
+    card: '#0f172a',
+    text: colors.text,
+    primary: colors.primary,
+    border: colors.border,
+  },
+};
+
 export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer theme={DefaultTheme}>
-          <Suspense fallback={<Text style={{ padding: 16 }}>Loading…</Text>}>
-            <Stack.Navigator>
-              <Stack.Screen name="Tabs" component={Tabs} options={{ title: 'Notes' }} />
-              <Stack.Screen
-                name="EditNote"
-                component={EditNoteScreen}
-                options={{ title: 'Edit Note' }}
-              />
+        <NavigationContainer theme={MyTheme}>
+          <StatusBar style="light" />
+          <Suspense fallback={<Text style={{ padding: 16, color: colors.text }}>Loading…</Text>}>
+            <Stack.Navigator
+              screenOptions={{
+                headerStyle: { backgroundColor: '#0f172a' },
+                headerTitle: () => <HeaderLogo />,
+                headerTintColor: colors.text,
+              }}
+            >
+              <Stack.Screen name="Tabs" component={Tabs} />
+              <Stack.Screen name="EditNote" component={EditNoteScreen} options={{ title: 'Edit Note' }} />
             </Stack.Navigator>
           </Suspense>
         </NavigationContainer>

@@ -8,6 +8,8 @@ import { makeSelectFilteredNotes, selectPinnedNotes, selectAllNotes, togglePinne
 import { useAppDispatch } from '../types';
 import NoteItem from '../components/NoteItem';
 import SearchBar from '../components/SearchBar';
+import { LinearGradient } from 'expo-linear-gradient';
+import { colors } from '../theme';
 
 const ROW_HEIGHT = 84;
 
@@ -48,8 +50,10 @@ const NotesScreen: React.FC<Props> = ({ showPinnedOnly }) => {
   );
 
   return (
-    <View style={styles.container}>
-      {!showPinnedOnly && <SearchBar value={query} onChangeText={setQuery} placeholder="Search notes…" />}
+    <LinearGradient colors={[colors.bg, '#0f1a35']} style={{ flex: 1 }}>
+      {!showPinnedOnly && (
+        <SearchBar value={query} onChangeText={setQuery} placeholder="Search notes…" />
+      )}
 
       <FlatList
         data={source}
@@ -67,17 +71,16 @@ const NotesScreen: React.FC<Props> = ({ showPinnedOnly }) => {
       <Pressable onPress={onAdd} style={styles.fab} android_ripple={{ borderless: true }}>
         <Text style={styles.fabText}>＋</Text>
       </Pressable>
-    </View>
+    </LinearGradient>
   );
 };
 
 export default NotesScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
   listContent: { padding: 12, paddingBottom: 96 },
   sep: { height: 8 },
-  empty: { textAlign: 'center', marginTop: 48, opacity: 0.6 },
+  empty: { textAlign: 'center', marginTop: 48, color: colors.muted },
   fab: {
     position: 'absolute',
     right: 16,
@@ -87,8 +90,14 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1e88e5',
-    elevation: 4,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: '#000',
+    shadowOpacity: 0.35,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
   },
   fabText: { color: 'white', fontSize: 28, marginTop: -2 },
 });

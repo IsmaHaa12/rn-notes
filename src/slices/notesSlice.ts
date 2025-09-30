@@ -47,7 +47,6 @@ const slice = createSlice({
       n.title = action.payload.title;
       n.content = action.payload.content;
       n.updatedAt = Date.now();
-      // move to top on edit
       state.order = [n.id, ...state.order.filter((id) => id !== n.id)];
     },
     deleteNote: (state, action: PayloadAction<string>) => {
@@ -60,7 +59,6 @@ const slice = createSlice({
       if (!n) return;
       n.pinned = !n.pinned;
       n.updatedAt = Date.now();
-      // keep ordering by updatedAt; already moved to top on edit
     },
   },
 });
@@ -68,7 +66,6 @@ const slice = createSlice({
 export const { addNote, updateNote, deleteNote, togglePinned } = slice.actions;
 export default slice.reducer;
 
-// ===== Selectors (memoized) =====
 const selectNotesDomain = (s: RootState) => s.notes;
 
 export const selectAllNotes = createSelector([selectNotesDomain], (domain) =>

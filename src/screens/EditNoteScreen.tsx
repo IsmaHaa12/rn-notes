@@ -6,6 +6,7 @@ import type { RootStackParamList } from '../../App';
 import { useSelector } from 'react-redux';
 import { selectNoteById, addNote, updateNote, deleteNote } from '../slices/notesSlice';
 import { useAppDispatch } from '../types';
+import { colors } from '../theme';
 
 export default function EditNoteScreen() {
   const route = useRoute<RouteProp<RootStackParamList, 'EditNote'>>();
@@ -55,12 +56,14 @@ export default function EditNoteScreen() {
       <TextInput
         style={styles.title}
         placeholder="Title"
+        placeholderTextColor={colors.muted}
         value={title}
         onChangeText={setTitle}
       />
       <TextInput
         style={styles.content}
         placeholder="Start typing…"
+        placeholderTextColor={colors.muted}
         value={content}
         onChangeText={setContent}
         multiline
@@ -84,20 +87,24 @@ export default function EditNoteScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 12, gap: 12 },
+  container: { flex: 1, padding: 12, gap: 12, backgroundColor: 'transparent' },
   title: {
     fontSize: 18,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: '#313a5b',
+    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    color: '#e5e7eb',
   },
   content: {
     flex: 1,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: '#313a5b',
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    color: '#e5e7eb',
   },
   toolbar: {
     flexDirection: 'row',
@@ -108,9 +115,9 @@ const styles = StyleSheet.create({
   btn: {
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: 10,
   },
-  primary: { backgroundColor: '#1e88e5' },
-  danger: { backgroundColor: '#e53935' },
+  primary: { backgroundColor: '#7C5CFC' },
+  danger: { backgroundColor: '#ef4444' },
   btnText: { color: 'white', fontWeight: '600' },
 });
